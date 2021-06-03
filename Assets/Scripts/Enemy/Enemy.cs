@@ -10,6 +10,8 @@ public abstract class Enemy : MonoBehaviour
     protected float speed;
     [SerializeField]
     protected int gems;
+    protected float damageCooldown = 0.5f;
+    protected float canTakeDamage = -1;
 
     [SerializeField]
     protected Transform pointA, pointB;
@@ -18,6 +20,10 @@ public abstract class Enemy : MonoBehaviour
     protected Animator anim;
     protected SpriteRenderer rend;
 
+    protected bool isHit;
+
+    [SerializeField]
+    protected Transform player;
 
     protected void Start()
     {
@@ -26,7 +32,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_anim"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_anim") && !anim.GetBool("InCombat"))
         {
             return;
         }
@@ -53,7 +59,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected void Move()
+    protected virtual void Move()
     {
         if (movementTarget == pointA.position)
         {
@@ -76,6 +82,15 @@ public abstract class Enemy : MonoBehaviour
 
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, movementTarget, speed * Time.deltaTime);
+        if (!isHit)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, movementTarget, speed * Time.deltaTime);
+        }
+
+        if (Vector2.Distance(player.position, transform.position) > 2f)
+        {
+            isHit = false;
+            anim.SetBool("InCombat", false);
+        }
     }
 }
