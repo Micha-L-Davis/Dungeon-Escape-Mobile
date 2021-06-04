@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class Player : MonoBehaviour, Input_Actions.IPlayerActions
+public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
 {
     [SerializeField]
     float _jumpForce = 5f;
@@ -20,11 +20,14 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions
     float _canAttack = -1f;
     [SerializeField]
     Transform _swordTransform;
-    
-    
+
+    float _damageCooldown = 0.5f;
+    float _canTakeDamage = -1;
+    public int Health { get; set; }
 
     void Start()
     {
+        Health = 3;
         _rigidbody = GetComponent<Rigidbody2D>();
         if (_rigidbody == null)
         {
@@ -117,6 +120,20 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions
         {
             yield return new WaitForSeconds(0.1f);
             _jumpWait = true;
+        }
+    }
+
+    public void Damage()
+    {
+        if (Time.time > _canTakeDamage)
+        {
+            _canTakeDamage = Time.time + _damageCooldown;
+            Health--;
+        }
+
+        if (Health < 1)
+        {
+            Debug.Log("You died!");
         }
     }
 }

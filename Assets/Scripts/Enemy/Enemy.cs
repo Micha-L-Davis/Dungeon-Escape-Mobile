@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     [SerializeField]
     protected int health;
@@ -40,7 +40,7 @@ public abstract class Enemy : MonoBehaviour
         Move();
     }
 
-    protected virtual void Attack()
+    public virtual void Attack()
     {
 
     }
@@ -86,8 +86,20 @@ public abstract class Enemy : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, movementTarget, speed * Time.deltaTime);
         }
+        else
+        {
+            Vector3 direction = player.transform.localPosition - transform.localPosition;
+            if (direction.x < 0)
+            {
+                rend.flipX = true;
+            }
+            else
+            {
+                rend.flipX = false;
+            }
+        }
 
-        if (Vector2.Distance(player.position, transform.position) > 2f)
+        if (Vector2.Distance(player.position, transform.position) > 3f)
         {
             isHit = false;
             anim.SetBool("InCombat", false);

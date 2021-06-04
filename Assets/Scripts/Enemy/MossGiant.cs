@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class MossGiant : Enemy, IDamageable
 {
-    public int Health { get; set; }
-
-    protected override void Init()
-    {
-        base.Init();
-    }
+    public int Health { get { return health; } set { health = value; } }
 
     public void Damage()
     {
-        anim.SetTrigger("Hit_anim");
+        if (Time.time > canTakeDamage)
+        {
+            canTakeDamage = Time.time + damageCooldown;
+            anim.SetTrigger("Hit");
+            Health--;
+            isHit = true;
+            anim.SetBool("InCombat", true);
+        }
+
+        if (Health < 1)
+        {
+            Destroy(gameObject, 0.5f);
+        }
     }
 }
