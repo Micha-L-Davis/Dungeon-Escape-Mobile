@@ -133,7 +133,7 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
 
         if (Health < 1)
         {
-            Debug.Log("You died!");
+            _playerAnimation.Death();
         }
     }
 }

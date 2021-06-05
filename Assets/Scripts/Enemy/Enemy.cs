@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
     protected SpriteRenderer rend;
 
     protected bool isHit;
+    protected bool isDead;
 
     [SerializeField]
     protected Transform player;
@@ -37,7 +38,10 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        Move();
+        if (!isDead)
+        {
+            Move();
+        }
     }
 
     public virtual void Attack()
