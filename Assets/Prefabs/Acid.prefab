@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3052167608963197627}
   - component: {fileID: 3052167608963197626}
   - component: {fileID: -6297771964584869038}
-  - component: {fileID: -1140928656917624146}
   - component: {fileID: 3246899439128097100}
+  - component: {fileID: -1140928656917624146}
   - component: {fileID: -5546120873433112391}
   m_Layer: 11
   m_Name: Acid
@@ -120,6 +120,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectileXVelocity: 5
+--- !u!114 &3246899439128097100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3052167608963197621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61740c6b0858a8488c2084d40d5e50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &-1140928656917624146
 Rigidbody2D:
   serializedVersion: 4
@@ -141,18 +153,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3246899439128097100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3052167608963197621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b61740c6b0858a8488c2084d40d5e50f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &-5546120873433112391
 CircleCollider2D:
   m_ObjectHideFlags: 0

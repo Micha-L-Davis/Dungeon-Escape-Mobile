@@ -8,6 +8,7 @@ public class Skeleton : Enemy, IDamageable
 
     public void Damage()
     {
+        if (isDead) return;
         if (Time.time > canTakeDamage)
         {
             canTakeDamage = Time.time + damageCooldown;
@@ -21,6 +22,7 @@ public class Skeleton : Enemy, IDamageable
         {
             anim.SetTrigger("Death");
             isDead = true;
+            DropLoot();
         }
     }
 }

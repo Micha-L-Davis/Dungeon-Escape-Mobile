@@ -9,7 +9,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     protected float speed;
     [SerializeField]
-    protected int gems;
+    protected int diamonds;
+    [SerializeField]
+    protected GameObject diamondPrefab;
     protected float damageCooldown = 0.5f;
     protected float canTakeDamage = -1;
 
@@ -108,5 +110,17 @@ public class Enemy : MonoBehaviour
             isHit = false;
             anim.SetBool("InCombat", false);
         }
+    }
+
+    protected virtual void DropLoot()
+    {
+        GameObject diamond = Instantiate
+                              (
+                                  diamondPrefab,
+                                  transform.position,
+                                  Quaternion.identity
+                              );
+        Diamond loot = diamond.GetComponent<Diamond>();
+        loot.Value = diamonds;
     }
 }

@@ -21,7 +21,4 @@ public class AcidEffect : MonoBehaviour
     {
         _rigidbody.velocity = new Vector2(_projectileXVelocity, _rigidbody.velocity.y);
     }
-    //move right at 3mps
-    //detect player and deal damage
-    //destroy this after 5sec.
 }

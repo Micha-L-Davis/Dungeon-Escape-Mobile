@@ -8,24 +8,21 @@ public class Spider : Enemy, IDamageable
     GameObject _acidBlob;
     public int Health { get { return health; } set { health = value; } }
 
-    protected override void Update()
+    protected override void Move()
     {
-
+        //no movement
     }
 
     public void Damage()
     {
+        if (isDead) return;
         Health--;
         if (Health < 1)
         {
             anim.SetTrigger("Death");
             isDead = true;
+            DropLoot();
         }
-    }
-
-    protected override void Move()
-    {
-    
     }
 
     public override void Attack()

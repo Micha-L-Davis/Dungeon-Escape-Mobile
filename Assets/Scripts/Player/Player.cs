@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
 {
     [SerializeField]
+    public int _loot;
+    [SerializeField]
     float _jumpForce = 5f;
     [SerializeField]
     float _speed = 4f;
@@ -135,5 +137,10 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
         {
             _playerAnimation.Death();
         }
+    }
+
+    public void LootGet(int value)
+    {
+        _loot += value;
     }
 }
