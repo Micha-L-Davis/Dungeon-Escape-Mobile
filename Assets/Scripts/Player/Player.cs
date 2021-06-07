@@ -21,6 +21,8 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
     float _attackRate = 0.5f;
     float _canAttack = -1f;
     [SerializeField]
+    bool _isDead;
+    [SerializeField]
     Transform _swordTransform;
 
     float _damageCooldown = 0.5f;
@@ -29,7 +31,13 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
 
     void Start()
     {
-        Health = 3;
+        Health = 4;
+        UIManager.Instance.UpdateLootCount(loot);
+        InitializeComponentHandles();
+    }
+
+    private void InitializeComponentHandles()
+    {
         _rigidbody = GetComponent<Rigidbody2D>();
         if (_rigidbody == null)
         {
@@ -64,27 +72,31 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Vector2 axisInput = context.ReadValue<Vector2>();
-        _playerAnimation.Move(axisInput);
-        axisInput.Normalize();
-        float horizontalInput = axisInput.x;
-        if (horizontalInput < 0)
-        {
-            _spriteRenderer[0].flipX = true;
-            _spriteRenderer[1].flipY = true;
-            _swordTransform.localPosition = new Vector2(-_swordTransform.localPosition.x, _swordTransform.localPosition.y);
+        if (!_isDead)
+        {   
+            Vector2 axisInput = context.ReadValue<Vector2>();
+            _playerAnimation.Move(axisInput);
+            //axisInput.Normalize();
+            float horizontalInput = axisInput.x;
+            if (horizontalInput < 0)
+            {
+                _spriteRenderer[0].flipX = true;
+                _spriteRenderer[1].flipY = true;
+                _swordTransform.localPosition = new Vector2(-_swordTransform.localPosition.x, _swordTransform.localPosition.y);
+            }
+            else if (horizontalInput > 0)
+            {
+                _spriteRenderer[0].flipX = false;
+                _spriteRenderer[1].flipY = false;
+                _swordTransform.localPosition = new Vector2(-_swordTransform.localPosition.x, _swordTransform.localPosition.y);
+            }
+            _rigidbody.velocity = new Vector2(horizontalInput * _speed, _rigidbody.velocity.y);
         }
-        else if (horizontalInput > 0)
-        {
-            _spriteRenderer[0].flipX = false;
-            _spriteRenderer[1].flipY = false;
-            _swordTransform.localPosition = new Vector2(-_swordTransform.localPosition.x, _swordTransform.localPosition.y);
-        }
-        _rigidbody.velocity = new Vector2(horizontalInput * _speed, _rigidbody.velocity.y);
+        
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.ReadValueAsButton() && Time.time > _canAttack && Grounded())
+        if (context.ReadValueAsButton() && Time.time > _canAttack && Grounded() && !_isDead)
         {
             _canAttack = Time.time + _attackRate;
             _playerAnimation.Attack();
@@ -127,25 +139,33 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
 
     public void Damage()
     {
-        if (Time.time > _canTakeDamage)
+        if (!_isDead)
         {
-            _canTakeDamage = Time.time + _damageCooldown;
-            Health--;
-        }
+            if (Time.time > _canTakeDamage)
+            {
+                _canTakeDamage = Time.time + _damageCooldown;
+                Health--;
+                UIManager.Instance.UpdateHealth(Health);
+            }
 
-        if (Health < 1)
-        {
-            _playerAnimation.Death();
+            if (Health < 1)
+            {
+                _isDead = true;
+                _playerAnimation.Death();
+            }
         }
+        
     }
 
     public void LootGain(int value)
     {
         loot += value;
+        UIManager.Instance.UpdateLootCount(loot);
     }
 
     public void LootLose(int value)
     {
         loot -= value;
+        UIManager.Instance.UpdateLootCount(loot); 
     }
 }

@@ -20,18 +20,36 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public Text playerLootCountText;
+    public Text playerLootShopText;
+    public Text playerLootUIText;
+    public GameObject[] lifeDisplay;
     public Image selector;
 
     public void OpenShop(int lootCount)
     {
-        playerLootCountText.text = "" + lootCount + "G";
+        playerLootShopText.text = "" + lootCount + "G";
     }
 
     public void UpdateSelector(int yPos)
     {
         selector.gameObject.SetActive(true);
         selector.rectTransform.anchoredPosition = new Vector2(selector.rectTransform.anchoredPosition.x, yPos);
+    }
+
+    public void UpdateLootCount(int count)
+    {
+        playerLootUIText.text = "" + count;
+    }
+
+    public void UpdateHealth(int livesRemaining)
+    {
+        for (int i = 0; i < lifeDisplay.Length; i++)
+        {
+            if (i == livesRemaining)
+            {
+                lifeDisplay[i].SetActive(false);
+            }
+        }
     }
 
     private void Awake()
