@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
 {
     [SerializeField]
-    public int _loot;
+    public int loot;
     [SerializeField]
     float _jumpForce = 5f;
     [SerializeField]
@@ -139,8 +139,13 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
         }
     }
 
-    public void LootGet(int value)
+    public void LootGain(int value)
     {
-        _loot += value;
+        loot += value;
+    }
+
+    public void LootLose(int value)
+    {
+        loot -= value;
     }
 }

@@ -13,7 +13,11 @@ public class Diamond : MonoBehaviour
             Player player = other.GetComponent<Player>();
             if (player != null)
             {
-                player.LootGet(Value);
+                if (Value == 0)
+                {
+                    Value = 1;
+                }
+                player.LootGain(Value);
                 Destroy(gameObject);
             }
 

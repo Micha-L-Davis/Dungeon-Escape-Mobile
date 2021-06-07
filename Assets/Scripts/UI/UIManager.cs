@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateSelector(int yPos)
     {
+        selector.gameObject.SetActive(true);
         selector.rectTransform.anchoredPosition = new Vector2(selector.rectTransform.anchoredPosition.x, yPos);
     }
 
