@@ -47,4 +47,9 @@ public class PlayerAnimation : MonoBehaviour
     {
         _anim[0].SetTrigger("Death");
     }
+
+    public void Respawn()
+    {
+        _anim[0].SetTrigger("Respawn");
+    }
 }

@@ -53,6 +53,7 @@ public class Shop : MonoBehaviour
                     break;
                 case 400:
                     Debug.Log("Boots of Flight Purchased");
+                    _player.EnableBoots();
                     break;
                 case 100:
                     GameManager.Instance.HasKeyToCastle = true;

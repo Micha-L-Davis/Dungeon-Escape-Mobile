@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     public Text playerLootUIText;
     public GameObject[] lifeDisplay;
     public Image selector;
+    public GameObject victoryPanel;
 
     public void OpenShop(int lootCount)
     {

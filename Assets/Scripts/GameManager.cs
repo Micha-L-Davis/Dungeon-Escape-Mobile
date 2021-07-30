@@ -42,6 +42,11 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.UpdateLootCount(Player.loot);
     }
 
+    public void LevelComplete()
+    {
+        UIManager.Instance.victoryPanel.SetActive(true);
+    }
+
     private void Awake()
     {
         _instance = this;

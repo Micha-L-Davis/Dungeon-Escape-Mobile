@@ -52,6 +52,7 @@ public class Enemy : MonoBehaviour
         rend = GetComponentInChildren<SpriteRenderer>();
         if (rend == null)
             Debug.LogError(transform.name + " Sprite Renderer is NULL");
+        movementTarget = pointA.position;
     }
 
     protected virtual void Move()

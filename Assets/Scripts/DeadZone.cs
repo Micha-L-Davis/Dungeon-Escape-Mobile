@@ -8,9 +8,9 @@ public class DeadZone : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            Debug.Log("Player entered deadzone");
             Player player = other.GetComponent<Player>();
-            player.Respawn();
-                       
+            StartCoroutine(player.RespawnRoutine());           
         }
     }
 }

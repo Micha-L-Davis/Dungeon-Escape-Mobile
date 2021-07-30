@@ -11,6 +11,8 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
     [SerializeField]
     float _jumpForce = 5f;
     [SerializeField]
+    float _jumpBonus;
+    [SerializeField]
     float _speed = 4f;
     Rigidbody2D _rigidbody;
     PlayerAnimation _playerAnimation;
@@ -63,9 +65,9 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.ReadValueAsButton() && Grounded())
+        if (context.ReadValueAsButton() && Grounded() && !_isDead)
         {
-            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce + _jumpBonus);
             _playerAnimation.Jump(true);
             _grounded = false;
             StartCoroutine(JumpFrameSkipRoutine());
@@ -103,6 +105,12 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
             _canAttack = Time.time + _attackRate;
             _playerAnimation.Attack();
         }
+    }
+
+    public void EnableBoots()
+    {
+        _jumpBonus = 3;
+        Debug.Log("Jump bonus " + _jumpBonus + " enabled.");
     }
 
     private void Update()
@@ -152,21 +160,26 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
 
             if (Health < 1)
             {
-                _isDead = true;
-                _playerAnimation.Death();
+                StartCoroutine(RespawnRoutine());
             }
         }
         
     }
 
-    public IEnumerator Respawn()
+    public IEnumerator RespawnRoutine()
     {
-        //isdead true
-        //trigger death anim
-        _rigidbody.isKinematic = true;
-        yield return new WaitForSeconds(2);
+        _isDead = true;
+        _playerAnimation.Death();
+        yield return new WaitForSeconds(2.5f);
         transform.position = _startPosition.position;
-        //turn back on RB
+        _playerAnimation.Respawn();
+        _isDead = false;
+    }
 
+    public IEnumerator VictoryRoutine()
+    {
+        _isDead = true;
+        yield return new WaitForSeconds(2.5f);
+        UIManager.Instance.ReturnToMenu();
     }
 }
