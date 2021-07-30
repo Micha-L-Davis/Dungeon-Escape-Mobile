@@ -36,45 +36,30 @@ public class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_anim") && !anim.GetBool("InCombat"))
-        {
             return;
-        }
-
+        
         if (!isDead)
-        {
             Move();
-        }
     }
 
-    public virtual void Attack()
-    {
-
-    }
+    public virtual void Attack() { }
 
     protected virtual void Init()
     {
         anim = GetComponentInChildren<Animator>();
         if (anim == null)
-        {
             Debug.LogError(transform.name + " Animator is NULL");
-        }
         rend = GetComponentInChildren<SpriteRenderer>();
         if (rend == null)
-        {
             Debug.LogError(transform.name + " Sprite Renderer is NULL");
-        }
     }
 
     protected virtual void Move()
     {
         if (movementTarget == pointA.position)
-        {
             rend.flipX = true;
-        }
         else if (movementTarget == pointB.position)
-        {
             rend.flipX = false;
-        }
 
         if (transform.position == pointA.position)
         {
@@ -89,20 +74,10 @@ public class Enemy : MonoBehaviour
         }
 
         if (!isHit)
-        {
             transform.position = Vector3.MoveTowards(transform.position, movementTarget, speed * Time.deltaTime);
-        }
         else
         {
-            Vector3 direction = player.transform.localPosition - transform.localPosition;
-            if (direction.x < 0)
-            {
-                rend.flipX = true;
-            }
-            else
-            {
-                rend.flipX = false;
-            }
+            FacePlayer();
         }
 
         if (Vector2.Distance(player.position, transform.position) > 3f)
@@ -110,6 +85,15 @@ public class Enemy : MonoBehaviour
             isHit = false;
             anim.SetBool("InCombat", false);
         }
+    }
+
+    private void FacePlayer()
+    {
+        Vector3 direction = player.transform.localPosition - transform.localPosition;
+        if (direction.x < 0)
+            rend.flipX = true;
+        else
+            rend.flipX = false;
     }
 
     protected virtual void DropLoot()
@@ -123,4 +107,18 @@ public class Enemy : MonoBehaviour
         Diamond loot = diamond.GetComponent<Diamond>();
         loot.Value = diamonds;
     }
+
+    //private void OnTriggerStay2D(Collider2D other)
+    //{
+    //    var returnTarget = movementTarget;
+    //    FacePlayer();
+    //    if (Vector2.Distance(player.position, transform.position) > 3f)
+    //        movementTarget = player.position;
+    //    else
+    //    {
+    //        anim.SetBool("InCombat", true);
+    //        movementTarget = returnTarget;
+    //    }
+    //    //chase player until distance < 3, then set anim incombat true
+    //}
 }

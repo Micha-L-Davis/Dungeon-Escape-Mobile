@@ -24,6 +24,8 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
     bool _isDead;
     [SerializeField]
     Transform _swordTransform;
+    [SerializeField]
+    Transform _startPosition;
 
     float _damageCooldown = 0.5f;
     float _canTakeDamage = -1;
@@ -157,15 +159,14 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
         
     }
 
-    public void LootGain(int value)
+    public IEnumerator Respawn()
     {
-        loot += value;
-        UIManager.Instance.UpdateLootCount(loot);
-    }
+        //isdead true
+        //trigger death anim
+        _rigidbody.isKinematic = true;
+        yield return new WaitForSeconds(2);
+        transform.position = _startPosition.position;
+        //turn back on RB
 
-    public void LootLose(int value)
-    {
-        loot -= value;
-        UIManager.Instance.UpdateLootCount(loot); 
     }
 }

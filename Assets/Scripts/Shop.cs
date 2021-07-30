@@ -60,7 +60,7 @@ public class Shop : MonoBehaviour
                 default:
                     break;
             }
-            _player.LootLose(_selectedItem);
+            GameManager.Instance.LootLose(_selectedItem);
             UIManager.Instance.OpenShop(_player.loot);
             _menuPanel.SetActive(false);
         }

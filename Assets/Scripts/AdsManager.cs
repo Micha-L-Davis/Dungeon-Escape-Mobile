@@ -8,8 +8,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
 {
     [SerializeField]
     Button _adButton;
-    [SerializeField]
-    Player _player;
+    
     [SerializeField]
     int _rewardValue = 100;
     string _gameId = "4160541";
@@ -47,7 +46,8 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
                 Debug.LogError("Ad skipped. No reward issued.");
                 break;
             case ShowResult.Finished:
-                _player.LootGain(_rewardValue);
+                GameManager.Instance.LootGain(_rewardValue);
+                UIManager.Instance.OpenShop(GameManager.Instance.Player.loot);
                 break;
             default:
                 break;

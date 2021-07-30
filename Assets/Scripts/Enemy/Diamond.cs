@@ -17,7 +17,7 @@ public class Diamond : MonoBehaviour
                 {
                     Value = 1;
                 }
-                player.LootGain(Value);
+                GameManager.Instance.LootGain(Value);
                 Destroy(gameObject);
             }
 
