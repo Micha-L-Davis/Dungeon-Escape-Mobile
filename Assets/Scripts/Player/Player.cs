@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
 {
@@ -171,13 +171,12 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
         _isDead = true;
         _playerAnimation.Death();
         yield return new WaitForSeconds(2.5f);
-        transform.position = _startPosition.position;
-        _playerAnimation.Respawn();
-        _isDead = false;
+        UIManager.Instance.ReturnToMenu();
     }
 
     public IEnumerator VictoryRoutine()
     {
+        _rigidbody.velocity = Vector3.zero;
         _isDead = true;
         UIManager.Instance.victoryPanel.SetActive(true);
         yield return new WaitForSeconds(2.5f);

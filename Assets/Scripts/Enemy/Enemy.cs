@@ -19,6 +19,9 @@ public class Enemy : MonoBehaviour
     protected Transform pointA, pointB;
     protected Vector3 movementTarget;
 
+    [SerializeField]
+    Transform _weaponCollider;
+
     protected Animator anim;
     protected SpriteRenderer rend;
 
@@ -57,10 +60,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Move()
     {
-        if (movementTarget == pointA.position)
-            rend.flipX = true;
-        else if (movementTarget == pointB.position)
-            rend.flipX = false;
+        rend.flipX = (movementTarget == pointA.position) ? true : false;
 
         if (transform.position == pointA.position)
         {
@@ -77,9 +77,7 @@ public class Enemy : MonoBehaviour
         if (!isHit)
             transform.position = Vector3.MoveTowards(transform.position, movementTarget, speed * Time.deltaTime);
         else
-        {
             FacePlayer();
-        }
 
         if (Vector2.Distance(player.position, transform.position) > 3f)
         {
@@ -92,9 +90,15 @@ public class Enemy : MonoBehaviour
     {
         Vector3 direction = player.transform.localPosition - transform.localPosition;
         if (direction.x < 0)
+        {
             rend.flipX = true;
+            _weaponCollider.localPosition = new Vector2(-_weaponCollider.localPosition.x, _weaponCollider.localPosition.y);
+        }
         else
+        {
             rend.flipX = false;
+            _weaponCollider.localPosition = new Vector2(-_weaponCollider.localPosition.x, _weaponCollider.localPosition.y);
+        }
     }
 
     protected virtual void DropLoot()
