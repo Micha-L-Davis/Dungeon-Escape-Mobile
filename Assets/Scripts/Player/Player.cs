@@ -179,7 +179,9 @@ public class Player : MonoBehaviour, Input_Actions.IPlayerActions, IDamageable
     public IEnumerator VictoryRoutine()
     {
         _isDead = true;
+        UIManager.Instance.victoryPanel.SetActive(true);
         yield return new WaitForSeconds(2.5f);
+        UIManager.Instance.victoryPanel.SetActive(false);
         UIManager.Instance.ReturnToMenu();
     }
 }

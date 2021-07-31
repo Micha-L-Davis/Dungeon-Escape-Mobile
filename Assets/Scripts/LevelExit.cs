@@ -8,7 +8,8 @@ public class LevelExit : MonoBehaviour
     {
         if (collision.tag == "Player" && GameManager.Instance.HasKeyToCastle)
         {
-            //level complete ui
+            Player player = collision.GetComponent<Player>();
+            StartCoroutine(player.VictoryRoutine());
         }
     }
 }
